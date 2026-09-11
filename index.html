@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Buffet prototype</title>
+  <link rel="icon" href="data:,">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; background: #f7f5ed; font-family: system-ui, sans-serif; color: #203b32; }
+    #player { width: 100%; height: 100%; display: flex; flex-direction: column; background: #f7f5ed; }
+    header { min-height: 42px; padding: 6px 14px; display: flex; align-items: center; gap: 12px; font-size: 14px; border-bottom: 1px solid #d9e1d8; }
+    header span { flex: 1; }
+    button { font: inherit; padding: 5px 12px; color: #203b32; background: #e0e8dc; border: 1px solid #a8bbae; border-radius: 4px; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #327855; outline-offset: 2px; }
+    #game { flex: 1; position: relative; min-height: 0; }
+    canvas { display: block; width: 100%; height: 100%; outline: none; }
+    #loading { position: absolute; inset: 0; display: grid; place-content: center; gap: 16px; padding: 24px; text-align: center; background: #f7f5ed; }
+    progress { width: min(360px, 75vw); height: 15px; accent-color: #266045; margin: auto; }
+    #notice { display: none; position: absolute; top: 8px; left: 5%; right: 5%; padding: 16px; background: #fff1d9; border: 1px solid #b49664; z-index: 2; white-space: pre-wrap; }
+    @media (max-width: 600px) { header { font-size: 12px; gap: 6px; padding: 6px; } button { padding: 6px; } }
+  </style>
+</head>
+<body>
+<main id="player">
+  <header><span>Buffet prototype · desktop preview</span><button id="restart" type="button">Restart</button><button id="fullscreen" type="button">Full screen</button></header>
+  <div id="game">
+    <canvas id="unity-canvas" width="1280" height="720" tabindex="0" aria-label="Buffet game. Instructions and controls appear after loading."></canvas>
+    <div id="loading" role="status"><strong>Preparing the buffet…</strong><progress id="progress" max="1" value="0"></progress><span id="loading-text">The first load can take a moment.</span></div>
+    <div id="notice" role="alert"></div>
+  </div>
+</main>
+<script>
+  const canvas = document.getElementById('unity-canvas');
+  const notice = document.getElementById('notice');
+  function showError(message) {
+    notice.textContent = 'The buffet could not load. Try reloading in a current desktop Chrome, Edge, or Firefox browser.\n\n' + message;
+    notice.style.display = 'block';
+    document.getElementById('loading').style.display = 'none';
+  }
+  document.getElementById('restart').onclick = () => {
+    const result = window.buffetLatestResult;
+    if (result && result.totalPortions > 0 && !confirm('Start a new plate? Export JSON first if you want to keep these choices.')) return;
+    location.reload();
+  };
+  document.getElementById('fullscreen').onclick = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await document.getElementById('player').requestFullscreen();
+      canvas.focus();
+    } catch (error) { console.warn('Full screen unavailable:', error); }
+  };
+  document.addEventListener('fullscreenchange', () => {
+    document.getElementById('fullscreen').textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen';
+  });
+  if (location.protocol === 'file:') {
+    showError('Open the hosted demo link, or serve the Builds/Web folder over HTTP.');
+  } else {
+    const buildUrl = 'Build';
+    const config = {
+      arguments: [],
+      dataUrl: buildUrl + '/Web.data.unityweb',
+      frameworkUrl: buildUrl + '/Web.framework.js.unityweb',
+      codeUrl: buildUrl + '/Web.wasm.unityweb',
+      streamingAssetsUrl: 'StreamingAssets',
+      companyName: "DefaultCompany",
+      productName: "Buffet_line",
+      productVersion: "0.1.0",
+      fullscreenElementID: 'player',
+      devicePixelRatio: 1,
+      showBanner: (message, type) => { if (type === 'error') showError(message); else console.warn(message); }
+    };
+    const loader = document.createElement('script');
+    loader.src = buildUrl + '/Web.loader.js';
+    loader.onerror = () => showError('The game files were unavailable.');
+    loader.onload = () => createUnityInstance(canvas, config, progress => {
+      document.getElementById('progress').value = progress;
+      document.getElementById('loading-text').textContent = 'Loading ' + Math.round(progress * 100) + '%';
+    }).then(instance => {
+      window.buffetUnity = instance;
+      document.getElementById('loading').style.display = 'none';
+      canvas.focus();
+    }).catch(showError);
+    document.body.appendChild(loader);
+  }
+</script>
+</body>
+</html>
