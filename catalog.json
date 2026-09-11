@@ -1,0 +1,109 @@
+{
+    "schemaVersion": 1,
+    "catalogVersion": "catalog-b06a917c9d215c665bac0e9ee12720040ed8ccc1f097cbd08c5a9c3c271a334d",
+    "buildVersion": "20260911T043918Z",
+    "rules": {
+        "totalPortionLimit": 0,
+        "layoutSeed": 731,
+        "allowEmptyPlate": true,
+        "plateDiameter": 0.2800000011920929,
+        "maximumPileHeight": 0.05999999865889549,
+        "settlingTimeout": 2.5,
+        "settledSpeed": 0.012000000104308128,
+        "lookSensitivity": 0.11999999731779099,
+        "maximumLookYaw": 80.0,
+        "minimumLookPitch": 5.0,
+        "maximumLookPitch": 55.0,
+        "neutralLookPitch": 41.0,
+        "travelSecondsPerStation": 0.3499999940395355,
+        "maximumTravelSeconds": 1.2000000476837158,
+        "pileSeedAlgorithm": "food-id-legacy7-fnv1a-v1"
+    },
+    "foods": [
+        {
+            "id": "rice",
+            "displayName": "Rice",
+            "container": "HotPan",
+            "utensil": "Spoon",
+            "startingServings": 8,
+            "piecesPerServing": 6,
+            "portionLimit": 0
+        },
+        {
+            "id": "broccoli",
+            "displayName": "Broccoli",
+            "container": "HotPan",
+            "utensil": "Tongs",
+            "startingServings": 8,
+            "piecesPerServing": 4,
+            "portionLimit": 0
+        },
+        {
+            "id": "carrots",
+            "displayName": "Carrots",
+            "container": "HotPan",
+            "utensil": "Tongs",
+            "startingServings": 8,
+            "piecesPerServing": 6,
+            "portionLimit": 0
+        },
+        {
+            "id": "grilled_chicken",
+            "displayName": "Grilled chicken",
+            "container": "HotPan",
+            "utensil": "Tongs",
+            "startingServings": 8,
+            "piecesPerServing": 1,
+            "portionLimit": 0
+        },
+        {
+            "id": "roasted_potatoes",
+            "displayName": "Roasted potatoes",
+            "container": "HotPan",
+            "utensil": "Spoon",
+            "startingServings": 8,
+            "piecesPerServing": 4,
+            "portionLimit": 0
+        },
+        {
+            "id": "macaroni_cheese",
+            "displayName": "Macaroni and cheese",
+            "container": "DeepPan",
+            "utensil": "Spoon",
+            "startingServings": 8,
+            "piecesPerServing": 3,
+            "portionLimit": 0
+        },
+        {
+            "id": "dinner_rolls",
+            "displayName": "Dinner rolls",
+            "container": "BreadBasket",
+            "utensil": "Tongs",
+            "startingServings": 8,
+            "piecesPerServing": 1,
+            "portionLimit": 0
+        }
+    ],
+    "defaultExperiment": {
+        "schemaVersion": 1,
+        "catalogVersion": "catalog-b06a917c9d215c665bac0e9ee12720040ed8ccc1f097cbd08c5a9c3c271a334d",
+        "studyId": "buffet-prototype",
+        "studyName": "My buffet study",
+        "taskInstructions": "Choose the foods and portions you would like. There are no right or wrong choices.",
+        "conditions": [
+            {
+                "id": "condition-a",
+                "name": "Order A",
+                "foodIds": [
+                    "rice",
+                    "broccoli",
+                    "carrots",
+                    "grilled_chicken",
+                    "roasted_potatoes",
+                    "macaroni_cheese",
+                    "dinner_rolls"
+                ]
+            }
+        ]
+    }
+}

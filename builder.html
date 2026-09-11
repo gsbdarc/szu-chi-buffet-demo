@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow"><link rel="icon" href="data:,">
+  <title>Experiment Builder · Buffet study</title><link rel="stylesheet" href="builder.css">
+</head>
+<body>
+  <header class="masthead">
+    <div><span class="eyebrow">BUFFET STUDY</span><h1>Experiment Builder</h1></div>
+    <div class="file-actions"><span id="save-status" role="status">Loading…</span><button id="new-study">New experiment</button><button id="import">Import file</button><button id="export">Export file</button><a href="index.html">Open demo ↗</a></div>
+    <input id="file" type="file" accept=".json,application/json" hidden>
+  </header>
+  <div id="message" role="status" hidden></div>
+  <nav class="tabs" aria-label="Experiment workspace"><button id="design-tab" aria-current="page">Design</button><button id="preview-tab">Preview condition</button><span>Arrange the buffet. Preview it. Share a fixed condition.</span></nav>
+  <main id="design">
+    <aside class="study-panel panel">
+      <h2>Your experiment</h2>
+      <label>Study name<input id="study-name" maxlength="100" autocomplete="off"></label>
+      <label>Participant instructions<textarea id="instructions" maxlength="2000" rows="4"></textarea></label>
+      <p class="hint">Instructions apply to every condition. Study and condition names stay out of the participant view.</p>
+      <div class="section-title"><h2>Conditions</h2><span id="condition-count"></span></div>
+      <div id="conditions" class="condition-list" aria-label="Saved conditions"></div>
+      <div class="button-pair"><button id="add-condition">New condition</button><button id="duplicate-condition">Duplicate</button></div>
+      <label>Condition name<input id="condition-name" maxlength="80" autocomplete="off"></label>
+      <button id="delete-condition" class="subtle">Delete condition</button>
+      <details><summary>Serving rules · fixed for this iteration</summary><p id="rules" class="hint"></p><p class="hint">Each food keeps its current serving size and starting stock. Changing order does not change these rules.</p></details>
+      <p class="storage-note">Drafts save on this browser only. Export a file to back up your experiment or edit it on another computer.</p>
+    </aside>
+    <section class="workspace">
+      <section class="counter-panel panel">
+        <div class="section-title"><div><span class="eyebrow">TOP-DOWN COUNTER</span><h2 id="counter-title">Order A</h2></div><span id="food-count" class="badge"></span></div>
+        <p class="hint">Drag dishes to change their order, or use the move buttons. Drop a library food between dishes to insert it.</p>
+        <div class="counter-scroll"><div id="counter" class="counter" aria-label="Buffet order"></div></div>
+        <div class="participant-edge"><span>● Start here</span><span>Participant side · move along the buffet →</span></div>
+        <div class="share-bar"><div><strong>Ready to try this condition?</strong><p id="validation" class="hint"></p></div><button id="preview" class="secondary">Preview</button><button id="copy-link" class="primary">Copy participant link</button></div>
+        <div id="link-fallback" hidden><label>Participant link<textarea id="participant-link" rows="3" readonly></textarea></label><p class="hint">Copy this whole link. It contains only the selected condition and its instructions.</p></div>
+      </section>
+      <section class="library-panel panel">
+        <div class="section-title"><div><span class="eyebrow">FOOD LIBRARY</span><h2>Choose your buffet</h2></div><label class="search"><span class="sr-only">Search foods</span><input id="search" type="search" placeholder="Search foods…"></label></div>
+        <p class="hint">Seven foods to start. Your study arrangements stay separate from the reusable food models.</p>
+        <div id="library" class="library"></div>
+      </section>
+    </section>
+  </main>
+  <section id="preview-panel" hidden><div class="preview-toolbar"><strong id="preview-title"></strong><span>Practice session · results are marked as preview</span><button id="return-design">Return to Design</button></div><div id="preview-host"></div></section>
+  <script type="module" src="builder.js"></script>
+</body>
+</html>
